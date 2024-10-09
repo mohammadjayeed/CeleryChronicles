@@ -19,11 +19,11 @@ services:
     depends_on:
       - redis
 
-  celery1:
+  celery:
     container_name: celery1
     build:
       context: .
-    command: celery -A celerychronicles worker -l INFO
+    command: celery -A celerychronicles worker -l INFO -Q queue1
     volumes:
       - .:/usr/src/app/
     environment:
@@ -39,7 +39,7 @@ services:
     build:
       context: ./celeryworker
       dockerfile: Dockerfile
-    command: celery -A celerytask worker -l INFO
+    command: celery -A celerytask worker -l INFO -Q queue2
     volumes:
       - ./celeryworker:/usr/src/app/
     depends_on:
